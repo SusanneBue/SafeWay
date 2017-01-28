@@ -17,6 +17,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -232,14 +234,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeAutoComplete(){
 
-        class AutoSuggester implements View.OnFocusChangeListener {
+        class AutoSuggester implements TextWatcher {
+
+            MultiAutoCompleteTextView view;
 
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    System.out.println("Focus left " + v.getId());
-                    final MultiAutoCompleteTextView autoCompleteTextEdit = (MultiAutoCompleteTextView) v;
-                    String incompleteLocation = autoCompleteTextEdit.getText().toString();
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence cs, int start, int before,
+                                      int count) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable e) {
+
+                    System.out.println("aftertextchanged " + view.getId());
+                    String incompleteLocation = view.getText().toString();
                     System.out.println(incompleteLocation);
                     TextAutoSuggestionRequest request = null;
                     request = new TextAutoSuggestionRequest(incompleteLocation).setSearchCenter(map.getCenter());
@@ -259,9 +276,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
                                         android.R.layout.simple_dropdown_item_1line, suggestions);
-                                autoCompleteTextEdit.setAdapter(adapter);
+                                view.setAdapter(adapter);
 
-                                autoCompleteTextEdit.showDropDown();
+                                view.showDropDown();
                             }
                         }
                     }
@@ -271,13 +288,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 ;
             }
-        }
 
         final MultiAutoCompleteTextView startLocation = (MultiAutoCompleteTextView) findViewById(R.id.editStart);
-        final EditText endLocation = (EditText) findViewById(R.id.editEnd);
+        final MultiAutoCompleteTextView endLocation = (MultiAutoCompleteTextView) findViewById(R.id.editEnd);
 
-            startLocation.setOnFocusChangeListener(new AutoSuggester());
-        endLocation.setOnFocusChangeListener(new AutoSuggester());
+        AutoSuggester startSuggester = new AutoSuggester();
+        startSuggester.view = startLocation;
+        startLocation.addTextChangedListener(startSuggester);
+
+        AutoSuggester endSuggester = new AutoSuggester();
+        endSuggester.view = endLocation;
+        endLocation.addTextChangedListener(endSuggester);
 
     }
 
