@@ -24,11 +24,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -63,7 +65,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.Manifest;
-import android.widget.MultiAutoCompleteTextView;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -270,7 +272,8 @@ public class MainActivity extends AppCompatActivity {
 
         class AutoSuggester implements TextWatcher {
 
-            MultiAutoCompleteTextView view;
+            AutoCompleteTextView view;
+
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1,
@@ -282,17 +285,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int start, int before,
                                       int count) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void afterTextChanged(Editable e) {
+                if (view.isPerformingCompletion()) {
+                    // An item has been selected from the list. Ignore.
+                    view.clearFocus();
+                    return;
+                }
 
-                    System.out.println("aftertextchanged " + view.getId());
-                    String incompleteLocation = view.getText().toString();
+                final String incompleteLocation = view.getText().toString();
                     System.out.println(incompleteLocation);
                     TextAutoSuggestionRequest request = null;
+                if (incompleteLocation.isEmpty()){
+                    view.dismissDropDown();
+                    return;
+                }
                     request = new TextAutoSuggestionRequest(incompleteLocation).setSearchCenter(map.getCenter());
                     class AutoSuggestionQueryListener implements ResultListener<List<AutoSuggest>> {
 
@@ -301,17 +310,15 @@ public class MainActivity extends AppCompatActivity {
                             if (error != ErrorCode.NONE) {
                                 System.err.println(error);
                             } else {
-                                final String[] suggestions = new String[data.size()];
+                                final String[] suggestions = new String[data.size()+1];
+                                suggestions[0] = incompleteLocation;
 
-
-                                for (int i = 0; i < data.size() && i < 5; i++) {
-                                    suggestions[i] = data.get(i).getTitle();
-                                    System.out.println(suggestions[i]);
+                                for (int i = 0; i < data.size(); i++) {
+                                    suggestions[i+1] = data.get(i).getTitle();
                                 }
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
                                         android.R.layout.simple_dropdown_item_1line, suggestions);
                                 view.setAdapter(adapter);
-
                                 view.showDropDown();
                             }
                         }
@@ -323,12 +330,20 @@ public class MainActivity extends AppCompatActivity {
                 ;
             }
 
-        final MultiAutoCompleteTextView startLocation = (MultiAutoCompleteTextView) findViewById(R.id.editStart);
-        final MultiAutoCompleteTextView endLocation = (MultiAutoCompleteTextView) findViewById(R.id.editEnd);
+        final AutoCompleteTextView startLocation = (AutoCompleteTextView) findViewById(R.id.editStart);
+        final AutoCompleteTextView endLocation = (AutoCompleteTextView) findViewById(R.id.editEnd);
 
-        AutoSuggester startSuggester = new AutoSuggester();
+        final AutoSuggester startSuggester = new AutoSuggester();
         startSuggester.view = startLocation;
         startLocation.addTextChangedListener(startSuggester);
+        startLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String text = (String) parent.getItemAtPosition(position);
+                System.out.println("SelectedItem: " + text);
+
+            }
+        });
 
         AutoSuggester endSuggester = new AutoSuggester();
         endSuggester.view = endLocation;
@@ -364,9 +379,8 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         map.setCenter(new GeoCoordinate(52.511390, 13.400027, 0.0), Map.Animation.NONE);
                     }
-                    // Set the zoom level to the average between min and max
-                    map.setZoomLevel(
-                            (map.getMaxZoomLevel() + map.getMinZoomLevel()) / 40);
+                    // Set the zoom level to pretty close (max = 18)
+                    map.setZoomLevel(15);
 
                     //MapMarker marker = new MapMarker();
                     //marker.setCoordinate(new GeoCoordinate(currentLocation.getLatitude(), currentLocation.getLongitude()));
@@ -459,7 +473,6 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                         }
                     });
-
                 } else {
                     System.out.println("ERROR: Cannot initialize Map Fragment");
                 }
