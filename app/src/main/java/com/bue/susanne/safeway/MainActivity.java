@@ -510,24 +510,26 @@ public class MainActivity extends AppCompatActivity {
         dialog.dismiss();
         com.here.android.mpa.common.Image img =
                 new com.here.android.mpa.common.Image();
+        int resource = 0;
         switch (view.getId()) {
-            case R.id.imageButton:
-                try {
-                    img.setImageResource(R.drawable.safety);
-                } catch (IOException e) {
-                    finish();
-                }
-                sharedPrefsExample(img);
+            case R.id.imageButtonSafety:
+                resource = R.drawable.safety;
                 break;
-            case R.id.imageButton2:
-                try {
-                    img.setImageResource(R.drawable.streetlights);
-                } catch (IOException e) {
-                    finish();
-                }
-                sharedPrefsExample(img);
+            case R.id.imageButtonLights:
+                resource = R.drawable.streetlights;
+                break;
+            case R.id.imageButtonPerson:
+                resource = R.drawable.person;
+                break;
+            case R.id.imageButtonHotel:
+                resource = R.drawable.hotel;
+                break;
+            case R.id.imageButtonRestaurant:
+                resource = R.drawable.restaurant;
                 break;
         }
+        img.setImageResource(resource);
+        sharedPrefsExample(img);
 
         Toast.makeText(MainActivity.this,
                         "Thanks for your contribution, event added to the database!", Toast.LENGTH_SHORT).show();
