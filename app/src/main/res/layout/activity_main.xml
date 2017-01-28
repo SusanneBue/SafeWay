@@ -6,26 +6,34 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="horizontal">
     <TableRow>
-<TextView android:id="@+id/labelAcceleration"
+<TextView android:id="@+id/labelStart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Acceleration:"
+    android:text="Start:"
     android:layout_weight="1"/>
-<TextView android:id="@+id/textAcceleration"
+<MultiAutoCompleteTextView android:id="@+id/editStart"
     android:layout_height="wrap_content"
-    android:text="0"
+    android:text="Your Location"
     android:layout_weight="2"/>
     </TableRow>
     <TableRow>
-        <TextView android:id="@+id/labelCoordinates"
-            android:layout_width="match_parent"
+    <TextView android:id="@+id/labelEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End:"
+        android:layout_weight="1"/>
+    <MultiAutoCompleteTextView android:id="@+id/editEnd"
+        android:layout_height="wrap_content"
+        android:text="Berlin"
+        android:layout_weight="2"/>
+    </TableRow>
+    <TableRow>
+
+        <Button android:id="@+id/routingButton"
+            android:text="Route me Safely"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Coordinates:"
-            android:layout_weight="1"/>
-        <TextView android:id="@+id/textCoordinates"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:layout_weight="2"/>
+            />
     </TableRow>
 <fragment
     class="com.here.android.mpa.mapping.MapFragment"
