@@ -23,9 +23,9 @@
         </activity>
         <activity android:name=".DisplayMessageActivity"></activity>
         <meta-data android:name="com.here.android.maps.appid"
-            android:value="XXX"/>
+            android:value="7c2ceu7UixSfDj28c8fD"/>
         <meta-data android:name="com.here.android.maps.apptoken"
-            android:value="XXX"/>
+            android:value="t4ex5LQ1dZED29SPd_WaNA"/>
         <service
             android:name="com.here.android.mpa.service.MapService"
             android:label="HereMapService"

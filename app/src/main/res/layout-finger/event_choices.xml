@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ImageButton
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/presence_busy"
+        android:id="@+id/imageButton"
+        android:scaleType="fitCenter"
+        android:layout_weight="0.09"
+        android:onClick="mapEvent"
+        style="@android:style/Widget.DeviceDefault.ImageButton"
+        android:visibility="visible" />
+
+    <ImageButton
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        android:id="@+id/imageButton2"
+        android:layout_weight="0.07" />
+</LinearLayout>

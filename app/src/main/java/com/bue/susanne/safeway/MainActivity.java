@@ -2,8 +2,12 @@ package com.bue.susanne.safeway;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.content.SharedPreferences;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +19,9 @@ import com.here.android.mpa.search.AutoSuggest;
 import  com.here.android.mpa.search.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,11 +33,25 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.support.v7.widget.PopupMenu;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.Toast;
+import android.view.View.OnClickListener;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.here.android.mpa.common.GeoCoordinate;
+import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
+import com.here.android.mpa.common.ViewObject;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapFragment;
+import com.here.android.mpa.mapping.MapGesture;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.search.ErrorCode;
 import com.here.android.mpa.search.GeocodeRequest;
@@ -46,11 +67,15 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
@@ -76,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
     private String currentLocationString;
 
     private SafeRouting routing;
+
+    MyDialog dialog;
+
+    PointF pointA;
 
     /**
      * permissions request code
@@ -157,6 +186,11 @@ public class MainActivity extends AppCompatActivity {
         currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
+        if (currentLocation == null) {
+            currentLocation = new Location("");
+            currentLocation.setLatitude(52.522101);
+            currentLocation.setLongitude(13.413215);
+        }
         System.out.println(currentLocation);
         if (currentLocation != null) {
             updateLocation(currentLocation);
@@ -305,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
     private void initialize() {
         setContentView(R.layout.activity_main);
         initializeGPS();
+        //addListenerOnButton();
 
         // Search for the map fragment to finish setup by calling init().
         mapFragment = (MapFragment)getFragmentManager().findFragmentById(
@@ -314,6 +349,8 @@ public class MainActivity extends AppCompatActivity {
             public void onEngineInitializationCompleted(
                     OnEngineInitListener.Error error)
             {
+
+
                 if (error == OnEngineInitListener.Error.NONE) {
                     // retrieve a reference of the map from the map fragment
                     map = mapFragment.getMap();
@@ -329,7 +366,99 @@ public class MainActivity extends AppCompatActivity {
                     }
                     // Set the zoom level to the average between min and max
                     map.setZoomLevel(
-                            (map.getMaxZoomLevel() + map.getMinZoomLevel()) / 2);
+                            (map.getMaxZoomLevel() + map.getMinZoomLevel()) / 40);
+
+                    //MapMarker marker = new MapMarker();
+                    //marker.setCoordinate(new GeoCoordinate(currentLocation.getLatitude(), currentLocation.getLongitude()));
+                    //map.addMapObject(marker);
+
+                    mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener() {
+
+                        @Override
+                        public void onPanStart() {
+
+                        }
+
+                        @Override
+                        public void onPanEnd() {
+
+                        }
+
+                        @Override
+                        public void onMultiFingerManipulationStart() {
+
+                        }
+
+                        @Override
+                        public void onMultiFingerManipulationEnd() {
+
+                        }
+
+                        @Override
+                        public boolean onMapObjectsSelected(List<ViewObject> list) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onTapEvent(PointF pointF) {
+
+                            dialog = new MyDialog();
+                            dialog.show(getSupportFragmentManager(),"Dialog");
+                            pointA = pointF;
+                            //MapMarker marker = new MapMarker();
+                            //marker.setCoordinate(map.pixelToGeo(pointF));
+                            //map.addMapObject(marker);
+
+
+
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onDoubleTapEvent(PointF pointF) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onPinchLocked() {
+
+                        }
+
+                        @Override
+                        public boolean onPinchZoomEvent(float v, PointF pointF) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onRotateLocked() {
+
+                        }
+
+                        @Override
+                        public boolean onRotateEvent(float v) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onTiltEvent(float v) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onLongPressEvent(PointF pointF) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onLongPressRelease() {
+
+                        }
+
+                        @Override
+                        public boolean onTwoFingerTapEvent(PointF pointF) {
+                            return false;
+                        }
+                    });
 
                 } else {
                     System.out.println("ERROR: Cannot initialize Map Fragment");
@@ -364,6 +493,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void mapEvent(View view) throws IOException {
+        dialog.dismiss();
+        //com.here.android.mpa.common
+        Image img = new Image();
+        switch (view.getId()) {
+            case R.id.imageButton:
+
+                img.setImageResource(android.R.drawable.btn_minus);
+                sharedPrefsExample(img);
+                break;
+            case R.id.imageButton2:
+                img.setImageResource(android.R.drawable.btn_star);
+                sharedPrefsExample(img);
+                break;
+        }
+
+        Toast.makeText(MainActivity.this,
+                        "Thanks for your contribution, event added to the database!", Toast.LENGTH_SHORT).show();
+
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
@@ -384,4 +534,44 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
+    public void sharedPrefsExample(Image img) {
+
+
+        String string_json = "{\n" +
+                "  \"marker\": {\n" +
+                "    \"icon\": \"/image.png\",\n" +
+                "    \"location\": {\n" +
+                "      \"lat\": 52.522101,\n" +
+                "      \"long\": 13.413215\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+        JSONObject markers;
+
+        Gson gson = new GsonBuilder().create();
+
+        //EventPOJO event = new EventPOJO(52.522101,13.413215);
+        GeoCoordinate location = map.pixelToGeo(pointA);
+        EventPOJO event = new EventPOJO(location.getLatitude(),location.getLongitude());
+        String json = gson.toJson(event);// obj is your object
+
+        try {
+             markers = new JSONObject(string_json);
+            //Double lat =  markers.getJSONObject("marker").getJSONObject("location").getDouble("lat");
+            //Double lon = markers.getJSONObject("marker").getJSONObject("location").getDouble("long");
+            MapMarker marker = new MapMarker();
+            marker.setIcon(img);
+
+            marker.setCoordinate(new GeoCoordinate(event.getLatitude(),event.getLongitude()));
+            map.addMapObject(marker);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
