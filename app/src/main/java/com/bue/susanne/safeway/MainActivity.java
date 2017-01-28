@@ -186,11 +186,11 @@ public class MainActivity extends AppCompatActivity {
         currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
-        if (currentLocation == null) {
-            currentLocation = new Location("");
-            currentLocation.setLatitude(52.522101);
-            currentLocation.setLongitude(13.413215);
-        }
+//        if (currentLocation == null) {
+//            currentLocation = new Location("");
+//            currentLocation.setLatitude(52.522101);
+//            currentLocation.setLongitude(13.413215);
+//        }
         System.out.println(currentLocation);
         if (currentLocation != null) {
             updateLocation(currentLocation);
@@ -495,16 +495,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void mapEvent(View view) throws IOException {
         dialog.dismiss();
-        //com.here.android.mpa.common
-        Image img = new Image();
+        com.here.android.mpa.common.Image img =
+                new com.here.android.mpa.common.Image();
         switch (view.getId()) {
             case R.id.imageButton:
-
-                img.setImageResource(android.R.drawable.btn_minus);
+                try {
+                    img.setImageResource(R.drawable.safety);
+                } catch (IOException e) {
+                    finish();
+                }
                 sharedPrefsExample(img);
                 break;
             case R.id.imageButton2:
-                img.setImageResource(android.R.drawable.btn_star);
+                try {
+                    img.setImageResource(R.drawable.streetlights);
+                } catch (IOException e) {
+                    finish();
+                }
                 sharedPrefsExample(img);
                 break;
         }
