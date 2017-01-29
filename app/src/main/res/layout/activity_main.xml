@@ -5,7 +5,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:focusableInTouchMode="true"
-android:orientation="horizontal">
+android:orientation="horizontal"
+    android:stretchColumns="1">>
     <TableRow>
 <TextView android:id="@+id/labelStart"
     android:layout_width="match_parent"
@@ -28,13 +29,20 @@ android:orientation="horizontal">
         android:text="Berlin"
         android:layout_weight="2"/>
     </TableRow>
-    <TableRow>
+    <TableRow
+        android:layout_width="fill_parent">
 
         <Button android:id="@+id/routingButton"
             android:text="Route me Safely"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
+        <Button android:id="@+id/helpButton"
+            android:text="Help me"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"/>
     </TableRow>
 <fragment
     class="com.here.android.mpa.mapping.MapFragment"

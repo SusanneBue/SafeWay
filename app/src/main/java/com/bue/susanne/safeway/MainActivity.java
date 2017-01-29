@@ -193,11 +193,11 @@ public class MainActivity extends AppCompatActivity {
         currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
-//        if (currentLocation == null) {
-//            currentLocation = new Location("");
-//            currentLocation.setLatitude(52.522101);
-//            currentLocation.setLongitude(13.413215);
-//        }
+        if (currentLocation == null) {
+           currentLocation = new android.location.Location("");
+            currentLocation.setLatitude(52.522101);
+            currentLocation.setLongitude(13.413215);
+        }
         System.out.println(currentLocation);
         if (currentLocation != null) {
             updateLocation(currentLocation);
@@ -354,6 +354,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initializeHelpMeButton(){
+        final SafePlaceFinder finder = new SafePlaceFinder(this.map, this.events);
+
+        Button helpMeButton = (Button) findViewById(R.id.helpButton);
+        helpMeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(currentLocation);
+                finder.findSafePlace(currentLocation);
+            }
+        });
+    }
+
     private void initialize() {
         setContentView(R.layout.activity_main);
         initializeGPS();
@@ -384,6 +397,7 @@ public class MainActivity extends AppCompatActivity {
                     // Set the zoom level to pretty close (max = 18)
                     map.setZoomLevel(15);
                     loadMarkers();
+                    initializeHelpMeButton();
 
                     mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener() {
 
@@ -587,14 +601,14 @@ public class MainActivity extends AppCompatActivity {
         is.read(buffer);
         is.close();
         String json_string = new String(buffer, "UTF-8");
-        EventListPOJO eventListPOJO = gson.fromJson(json_string, EventListPOJO.class);
+        events = gson.fromJson(json_string, EventListPOJO.class);
 
-        for (EventPOJO event : eventListPOJO.getEvents()){
+        for (EventPOJO event : events.getEvents()){
             MapMarker marker = new MapMarker();
             com.here.android.mpa.common.Image img =
                     new com.here.android.mpa.common.Image();
             img.setImageResource(event.getIconID());
-            marker.setIcon(img);
+           marker.setIcon(img);
             marker.setCoordinate(new GeoCoordinate(event.getLatitude(), event.getLongitude()));
             map.addMapObject(marker);
 
