@@ -122,6 +122,8 @@ public class SafeRouting {
                 map.addMapObject(mapRoute);
 
                 SafeRouteInfos infos1 = new SafeRouteInfos();
+                int tta =  mapRoute.getRoute().getTta(Route.TrafficPenaltyMode.DISABLED, mapRoute.getRoute().getSublegCount()-1).getDuration() / 60;
+                infos1.minutes = tta;
                 matchEvents(mapRoute,infos1);
                 safeRouteInfos.put(mapRoute.getRoute(), infos1);
                 mapRoute.setColor(infos1.getColor());
@@ -133,6 +135,8 @@ public class SafeRouting {
                     mapRoute = new MapRoute(routeResult.get(i).getRoute());
 
                     SafeRouteInfos infos = new SafeRouteInfos();
+                    tta =  mapRoute.getRoute().getTta(Route.TrafficPenaltyMode.DISABLED, mapRoute.getRoute().getSublegCount()-1).getDuration() / 60;
+                    infos.minutes = tta;
                     matchEvents(mapRoute,infos);
                     safeRouteInfos.put(mapRoute.getRoute(), infos);
                     mapRoute.setColor(infos.getColor());

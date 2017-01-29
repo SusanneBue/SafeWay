@@ -446,7 +446,10 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onDoubleTapEvent(PointF pointF) {
-                            return false;
+                            dialog = new MyDialog();
+                            dialog.show(getSupportFragmentManager(), "Dialog");
+                            pointA = pointF;
+                            return true;
                         }
 
                         @Override
@@ -476,10 +479,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onLongPressEvent(PointF pointF) {
-                            dialog = new MyDialog();
-                            dialog.show(getSupportFragmentManager(), "Dialog");
-                            pointA = pointF;
-                            return true;
+                           return false;
                         }
 
                         @Override
