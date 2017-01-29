@@ -6,7 +6,7 @@
       "longitude": 13.334563776127965,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -16,7 +16,7 @@
       "longitude": 13.334430056301358,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -26,7 +26,7 @@
       "longitude": 13.334631148195001,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -36,7 +36,7 @@
       "longitude": 13.33470655773192,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -46,7 +46,7 @@
       "longitude": 13.334817172186035,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -56,7 +56,7 @@
       "longitude": 13.335038373146205,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -66,7 +66,7 @@
       "longitude": 13.33555618460349,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -76,7 +76,7 @@
       "longitude": 13.335998693708035,
       "title": "Missing Streetlights",
       "confirmationCount": 0,
-      "iconID": 2130837603,
+      "iconID": 2130837604,
       "rating": 0,
       "safetyValue": -1
     },
@@ -86,7 +86,7 @@
       "longitude": 13.331853188667566,
       "title": "Safety House",
       "confirmationCount": 0,
-      "iconID": 2130837602,
+      "iconID": 2130837603,
       "rating": 0,
       "safetyValue": 1
     },
@@ -96,7 +96,7 @@
       "longitude": 13.327689542274697,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -106,7 +106,7 @@
       "longitude": 13.335531780981967,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -116,7 +116,7 @@
       "longitude": 13.336614823861822,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -126,7 +126,7 @@
       "longitude": 13.33607247810184,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -136,7 +136,7 @@
       "longitude": 13.335217049164925,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -146,7 +146,7 @@
       "longitude": 13.329903411984816,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -156,7 +156,7 @@
       "longitude": 13.325199308708193,
       "title": "Hotel",
       "confirmationCount": 0,
-      "iconID": 2130837589,
+      "iconID": 2130837590,
       "rating": 0,
       "safetyValue": 1
     },
@@ -166,7 +166,37 @@
       "longitude": 13.324778443776069,
       "title": "Hotel",
       "confirmationCount": 0,
+      "iconID": 2130837590,
+      "rating": 0,
+      "safetyValue": 1
+    },
+    {
+      "description": "Please be careful, a lot of danger here!",
+      "latitude": 52.51167372559411,
+      "longitude": 13.33630455881891,
+      "title": "Caution",
+      "confirmationCount": 0,
+      "iconID": 2130837588,
+      "rating": 0,
+      "safetyValue": -1
+    },
+    {
+      "description": "Here you find a gas station as safe point.",
+      "latitude": 52.52092544332884,
+      "longitude": 13.331844045080942,
+      "title": "Gas station",
+      "confirmationCount": 0,
       "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
+    },
+    {
+      "description": "At this place you can find a SafeWay person.",
+      "latitude": 52.518485240486044,
+      "longitude": 13.334866777425049,
+      "title": "Safety Person",
+      "confirmationCount": 0,
+      "iconID": 2130837601,
       "rating": 0,
       "safetyValue": 1
     }
