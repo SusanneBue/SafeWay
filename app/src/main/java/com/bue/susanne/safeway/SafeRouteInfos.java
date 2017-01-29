@@ -8,8 +8,6 @@ import android.graphics.Color;
 
 public class SafeRouteInfos {
 
-    private int dangerLevel = 0;
-
     private int numberOfDangerEvents = 0;
 
     private int numberOfSafetyEvents = 0;
@@ -31,19 +29,21 @@ public class SafeRouteInfos {
     }
 
 
-    public SafeRouteInfos(int dangerLevel) {
-        this.dangerLevel = dangerLevel;
+    public SafeRouteInfos() {
     }
 
-    public int getDangerLevel(){
-        return this.dangerLevel;
+    public int getSafetyLevel(){
+        System.out.println( "safety pionts: " + getNumberOfSafetyEvents());
+        System.out.println(" danger points: " + getNumberOfDangerEvents());
+        return (getNumberOfSafetyEvents() - getNumberOfDangerEvents());
     }
 
     public int getColor(){
-        if (dangerLevel > 7){
+
+        if (getSafetyLevel() < 0){
             return Color.parseColor("#FF0000");
         }else{
-            if (dangerLevel > 4){
+            if (getSafetyLevel() == 0){
                 return Color.parseColor("#FF9500");
             }else{
                 return Color.parseColor("#1CA800");
@@ -53,7 +53,7 @@ public class SafeRouteInfos {
     }
 
     public String toString(){
-        return "Route Safety: " + this.dangerLevel + "\n" + "Safety points: " + this.numberOfSafetyEvents +"\n" + "Danger points: " + this.numberOfSafetyEvents;
+        return "Route Safety: " + getSafetyLevel() + "\n" + "Safety points: " + this.numberOfSafetyEvents +"\n" + "Danger points: " + this.numberOfDangerEvents;
     }
 
 }
