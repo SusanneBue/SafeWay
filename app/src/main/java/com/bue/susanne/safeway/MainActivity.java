@@ -3,6 +3,7 @@ package com.bue.susanne.safeway;
 import android.app.Activity;
 import android.app.usage.UsageEvents;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.PointF;
 import android.hardware.SensorEventListener;
 import android.location.Address;
@@ -64,6 +65,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.bue.susanne.safeway.MESSAGE";
 
+    protected static MainActivity instance;
+
     // map embedded in the map fragment
     private Map map = null;
     private Activity activity;
@@ -101,9 +104,20 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET};
 
 
+    /** Get singleton instance of activity **/
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    /** Returns context of this activity **/
+    public static Context getContext(){
+        return instance.getApplicationContext();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
+        instance = this;
         super.onCreate(savedInstanceState);
         checkPermissions();
         initializeRouting();

@@ -10,10 +10,30 @@ public class SafeRouteInfos {
 
     private int dangerLevel = 0;
 
+    private int numberOfDangerEvents = 0;
+
+    private int numberOfSafetyEvents = 0;
+
+    public int getNumberOfDangerEvents() {
+        return numberOfDangerEvents;
+    }
+
+    public int getNumberOfSafetyEvents() {
+        return numberOfSafetyEvents;
+    }
+
+    public void setNumberOfDangerEvents(int numberOfDangerEvents) {
+        this.numberOfDangerEvents = numberOfDangerEvents;
+    }
+
+    public void setNumberOfSafetyEvents(int numberOfSafetyEvents) {
+        this.numberOfSafetyEvents = numberOfSafetyEvents;
+    }
+
+
     public SafeRouteInfos(int dangerLevel) {
         this.dangerLevel = dangerLevel;
     }
-
 
     public int getDangerLevel(){
         return this.dangerLevel;

@@ -10,19 +10,25 @@ public class EventPOJO {
     private Double latitude;
     private int iconID;
 
+    // the higher the better
+    private int safetyValue;
 
+    public int getSafetyValue() {
+        return safetyValue;
+    }
+
+    public void setSafetyValue(int safetyValue) {
+        this.safetyValue = safetyValue;
+    }
 
     public EventPOJO (Double latitude, Double longitude){
         setLatitude(latitude);
         setLongitude(longitude);
     }
 
-
-    public EventPOJO(float latitude, float longitude){
+    public EventPOJO(double latitude, double longitude){
         this.latitude = Double.valueOf(String.valueOf(latitude));
         this.longitude = Double.valueOf(String.valueOf(longitude));
-        System.out.println(this.latitude);
-        System.out.println(this.longitude);
     }
 
     public void setLatitude(Double latitude) {
