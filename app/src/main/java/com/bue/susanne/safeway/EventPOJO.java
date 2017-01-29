@@ -13,6 +13,14 @@ public class EventPOJO {
     // the higher the better
     private int safetyValue;
 
+    private String title;
+
+    private String description;
+
+    private int rating;
+
+    private int confirmationCount;
+
     public int getSafetyValue() {
         return safetyValue;
     }
@@ -30,6 +38,22 @@ public class EventPOJO {
         this.latitude = Double.valueOf(String.valueOf(latitude));
         this.longitude = Double.valueOf(String.valueOf(longitude));
     }
+
+    public void setTitle(String title) { this.title = title;}
+
+    public void setDescription(String description) { this.description = description;}
+
+    public void setRating(int rating) {this.rating = rating;}
+
+    public int getRating(){return rating;}
+
+    public void setConfirmationCount(int confirmationCount) { this.confirmationCount = confirmationCount;}
+
+    public int getConfirmationCount(){return confirmationCount;}
+
+    public String getDescription(){return description;}
+
+    public String getTitle(){return title;}
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
