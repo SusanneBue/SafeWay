@@ -53,7 +53,7 @@ public class SafeRouteInfos {
     }
 
     public String toString(){
-        return "Route Safety: " + this.dangerLevel;
+        return "Route Safety: " + this.dangerLevel + "\n" + "Safety points: " + this.numberOfSafetyEvents +"\n" + "Danger points: " + this.numberOfSafetyEvents;
     }
 
 }
