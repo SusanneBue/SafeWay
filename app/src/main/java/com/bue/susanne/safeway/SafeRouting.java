@@ -130,7 +130,7 @@ public class SafeRouting {
 
         Context context = MainActivity.getContext();
 
-        InputStream is = context.getResources().openRawResource(R.raw.events2);
+        InputStream is = context.getResources().openRawResource(R.raw.events);
 
         //String file = "/res/raw/events2.json";
         //Resources res = this.context.getResources();

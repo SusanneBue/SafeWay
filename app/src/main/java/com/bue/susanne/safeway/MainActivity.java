@@ -342,8 +342,10 @@ public class MainActivity extends AppCompatActivity {
         startLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = (String) parent.getItemAtPosition(position);
-                System.out.println("SelectedItem: " + text);
+                if (parent != null) {
+                    String text = (String) parent.getItemAtPosition(position);
+                    System.out.println("SelectedItem: " + text);
+                }
 
             }
         });
@@ -512,24 +514,48 @@ public class MainActivity extends AppCompatActivity {
     public void mapEvent(View view) throws IOException {
         dialog.dismiss();
         int resource = 0;
+        String title = "";
+        String description = "";
+        int safetyValue = 0;
         switch (view.getId()) {
             case R.id.imageButtonSafety:
                 resource = R.drawable.safety;
+                title = "Safety House";
+                description = "Navigate here to find a secure place.";
+                safetyValue = 1;
                 break;
             case R.id.imageButtonLights:
                 resource = R.drawable.streetlights;
+                title = "Missing Streetlights";
+                description = "On this street the lights are missing.";
+                safetyValue = -1;
                 break;
             case R.id.imageButtonPerson:
                 resource = R.drawable.person;
+                title = "Safety Person";
+                description = "At this place you can find a SafeWay person.";
+                safetyValue = 1;
                 break;
             case R.id.imageButtonHotel:
                 resource = R.drawable.hotel;
+                title = "Hotel";
+                description = "Here you find a hotel as safe point.";
+                safetyValue = 1;
                 break;
-            case R.id.imageButtonRestaurant:
-                resource = R.drawable.restaurant;
+            case R.id.imageButtonCaution:
+                resource = R.drawable.caution;
+                title = "Caution";
+                description = "Please be careful, a lot of danger here!";
+                safetyValue = -1;
+                break;
+            case R.id.imageButtonGasStation:
+                resource = R.drawable.gas_station;
+                title = "Gas station";
+                description = "Here you find a gas station as safe point.";
+                safetyValue = 1;
                 break;
         }
-        storeMarkers(resource);
+        storeMarkers(resource,title, description, safetyValue);
         Toast.makeText(MainActivity.this,
                 "Thanks for your contribution, event added to the database!", Toast.LENGTH_SHORT).show();
 
@@ -557,7 +583,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void storeMarkers(int resource) throws IOException {
+    public void storeMarkers(int resource, String title, String description, int safetyValue) throws IOException {
 
         com.here.android.mpa.common.Image img =
                 new com.here.android.mpa.common.Image();
@@ -567,10 +593,21 @@ public class MainActivity extends AppCompatActivity {
         GeoCoordinate location = map.pixelToGeo(pointA);
         EventPOJO event = new EventPOJO(location.getLatitude(), location.getLongitude());
         event.setIconID(resource);
+        event.setDescription(description);
+        event.setTitle(title);
+        event.setSafetyValue(safetyValue);
+
+         events.addEvent(event);
+        Gson gson = new GsonBuilder().create();
+        String events_string = gson.toJson(events);
+        System.out.println(events_string);
 
         MapMarker marker = new MapMarker();
         marker.setIcon(img);
-
+        marker.setTitle(title);
+        marker.setDescription(description);
+        marker.setDraggable (true);
+        marker.setZIndex(1001);
         marker.setCoordinate(new GeoCoordinate(event.getLatitude(), event.getLongitude()));
         map.addMapObject(marker);
     }
@@ -595,6 +632,8 @@ public class MainActivity extends AppCompatActivity {
                     new com.here.android.mpa.common.Image();
             img.setImageResource(event.getIconID());
             marker.setIcon(img);
+            marker.setDraggable (true);
+            marker.setZIndex(1001);
             marker.setCoordinate(new GeoCoordinate(event.getLatitude(), event.getLongitude()));
             map.addMapObject(marker);
 

@@ -20,14 +20,14 @@
 
             <ImageButton
                 android:layout_height="97dp"
-                app:srcCompat="@drawable/restaurant"
-                android:id="@+id/imageButtonRestaurant"
+                app:srcCompat="@drawable/caution"
+                android:id="@+id/imageButtonCaution"
                 android:layout_width="wrap_content"
                 android:scaleType="fitCenter"
                 style="@android:style/Widget.DeviceDefault.ImageButton"
                 android:background="@android:color/background_light"
                 android:onClick="mapEvent"
-                android:contentDescription="Missing Lights" />
+                android:contentDescription="" />
 
             <ImageButton
                 android:layout_height="97dp"
@@ -91,6 +91,16 @@
         android:weightSum="1"
         android:baselineAligned="false"
         android:orientation="horizontal">
+
+
+        <ImageButton
+            android:layout_height="98dp"
+            android:layout_width="wrap_content"
+            app:srcCompat="@drawable/gas_station"
+            android:id="@+id/imageButtonGasStation"
+            android:onClick="mapEvent"
+            android:background="@android:color/background_light"
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:layout_height="97dp"

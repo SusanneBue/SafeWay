@@ -1,82 +1,174 @@
 {
   "events": [
     {
-      "latitude": 52.5122009122934,
-      "longitude": 13.397915374637137,
-      "iconID": 2130837601,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.5087183296524,
+      "longitude": 13.334563776127965,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.511961346897124,
-      "longitude": 13.43392746126949,
-      "iconID": 2130837601,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.5090922031249,
+      "longitude": 13.334430056301358,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.51249485430925,
-      "longitude": 13.431363316067404,
-      "iconID": 2130837600,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.50945946557881,
+      "longitude": 13.334631148195001,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.5090719727736,
-      "longitude": 13.334400456729469,
-      "iconID": 2130837601,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.50970732447486,
+      "longitude": 13.33470655773192,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.50949456524541,
-      "longitude": 13.334616182278893,
-      "iconID": 2130837601,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.51003164916918,
+      "longitude": 13.334817172186035,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.509970997203645,
-      "longitude": 13.334787684858071,
-      "iconID": 2130837601,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.510258061438556,
+      "longitude": 13.335038373146205,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
       "safetyValue": -1
     },
     {
-      "latitude": 52.51136606741981,
-      "longitude": 13.33505160561404,
-      "iconID": 2130837599,
+      "description": "On this street the lights are missing.",
+      "latitude": 52.510744617189225,
+      "longitude": 13.33555618460349,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
+      "safetyValue": -1
+    },
+    {
+      "description": "On this street the lights are missing.",
+      "latitude": 52.51101396571116,
+      "longitude": 13.335998693708035,
+      "title": "Missing Streetlights",
+      "confirmationCount": 0,
+      "iconID": 2130837603,
+      "rating": 0,
+      "safetyValue": -1
+    },
+    {
+      "description": "Navigate here to find a secure place.",
+      "latitude": 52.50700699903844,
+      "longitude": 13.331853188667566,
+      "title": "Safety House",
+      "confirmationCount": 0,
+      "iconID": 2130837602,
+      "rating": 0,
       "safetyValue": 1
     },
     {
-      "latitude": 52.51043762369226,
-      "longitude": 13.335024788435163,
-      "iconID": 2130837601,
-      "safetyValue": -1
-    },
-    {
-      "latitude": 52.51988120635998,
-      "longitude": 13.335529111293454,
-      "iconID": 2130837598,
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.507889462019676,
+      "longitude": 13.327689542274697,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
       "safetyValue": 1
     },
     {
-      "latitude": 52.5196729661975,
-      "longitude": 13.34802401479402,
-      "iconID": 2130837601,
-      "safetyValue": -1
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.5139754133621,
+      "longitude": 13.335531780981967,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
     },
     {
-      "latitude": 52.51996282199794,
-      "longitude": 13.347187590947556,
-      "iconID": 2130837599,
-      "safetyValue": -1
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.51487508880094,
+      "longitude": 13.336614823861822,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
     },
     {
-      "latitude": 52.52319893092325,
-      "longitude": 13.32960097019216,
-      "iconID": 2130837587,
-      "safetyValue": -1
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.514614586574325,
+      "longitude": 13.33607247810184,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
     },
     {
-      "latitude": 52.520366784555954,
-      "longitude": 13.327406788670459,
-      "iconID": 2130837587,
-      "safetyValue": -1
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.51106045349926,
+      "longitude": 13.335217049164925,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
+    },
+    {
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.50679878942645,
+      "longitude": 13.329903411984816,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
+    },
+    {
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.50918203843069,
+      "longitude": 13.325199308708193,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
+    },
+    {
+      "description": "Here you find a hotel as safe point.",
+      "latitude": 52.50936419923064,
+      "longitude": 13.324778443776069,
+      "title": "Hotel",
+      "confirmationCount": 0,
+      "iconID": 2130837589,
+      "rating": 0,
+      "safetyValue": 1
     }
   ]
 }
