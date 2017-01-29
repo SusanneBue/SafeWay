@@ -2,6 +2,7 @@ package com.bue.susanne.safeway;
 
 import android.app.Activity;
 import android.app.usage.UsageEvents;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.PointF;
 import android.hardware.SensorEventListener;
@@ -9,6 +10,10 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import com.google.gson.stream.JsonReader;
+
+import com.here.android.mpa.mapping.MapObject;
+import com.here.android.mpa.mapping.MapRoute;
+
 import com.here.android.mpa.search.AutoSuggest;
 import  com.here.android.mpa.search.Location;
 import android.location.LocationListener;
@@ -84,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     private SafeRouting routing;
 
     MyDialog dialog;
+    RouteDialog routeDialog;
 
     PointF pointA;
 
@@ -389,12 +395,23 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onMapObjectsSelected(List<ViewObject> list) {
+                            if (list.size() > 0){
+                                ViewObject selectedObject = list.get(0);
+                                if (((MapObject)selectedObject).getType() == MapObject.Type.ROUTE){
+                                    //get it to top
+                                    ((MapRoute) selectedObject).setZIndex(1000);
+                                    String routeInfo = routing.getSafeRouteInfo((MapRoute) selectedObject);
+                                    routeDialog = RouteDialog.newInstance(routeInfo);
+
+                                     routeDialog.show(getSupportFragmentManager(),"Route Info");
+                                }
+                            }
                             return false;
                         }
 
                         @Override
                         public boolean onTapEvent(PointF pointF) {
-                            return true;
+                            return false;
                         }
 
                         @Override

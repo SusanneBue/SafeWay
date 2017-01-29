@@ -6,6 +6,7 @@ import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapContainer;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.MapRoute;
+import com.here.android.mpa.routing.Route;
 import com.here.android.mpa.routing.RouteManager;
 import com.here.android.mpa.routing.RouteOptions;
 import com.here.android.mpa.routing.RoutePlan;
@@ -23,12 +24,21 @@ public class SafeRouting {
 
     private Map map = null;
 
-    private HashMap<MapRoute, SafeRouteInfos> safeRouteInfos = new HashMap<MapRoute, SafeRouteInfos>();
+    private HashMap<Route, SafeRouteInfos> safeRouteInfos = new HashMap<Route, SafeRouteInfos>();
 
     public SafeRouting(Map map){
         this.map =  map;
         System.out.println("Map HERE" + map);
 
+    }
+
+    public String getSafeRouteInfo(MapRoute route){
+        SafeRouteInfos infos = safeRouteInfos.get(route.getRoute());
+        if (infos == null){
+            return "Route Safety: medium";
+        }else{
+            return infos.toString();
+        }
     }
 
     public void calculateRoute(GeoCoordinate start, GeoCoordinate end) {
@@ -87,7 +97,7 @@ public class SafeRouting {
                     int dangerLevel = new Random().nextInt(11);
                     System.out.println(dangerLevel);
                     SafeRouteInfos infos = new SafeRouteInfos(dangerLevel);
-                    safeRouteInfos.put(mapRoute, infos);
+                    safeRouteInfos.put(mapRoute.getRoute(), infos);
                     mapRoute.setColor(infos.getColor());
                 }
             }
