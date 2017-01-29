@@ -190,13 +190,13 @@ public class MainActivity extends AppCompatActivity {
         };
 
         checkCallingPermission(ACCESS_FINE_LOCATION);
-        currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
+        //currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
         if (currentLocation == null) {
            currentLocation = new android.location.Location("");
-            currentLocation.setLatitude(52.522101);
-            currentLocation.setLongitude(13.413215);
+            currentLocation.setLatitude(52.519919);
+            currentLocation.setLongitude(13.335049);
         }
         System.out.println(currentLocation);
         if (currentLocation != null) {
