@@ -33,10 +33,10 @@ android:orientation="horizontal"
         android:layout_width="fill_parent">
 
         <Button android:id="@+id/routingButton"
-            android:text="Route me Safely"
+            android:text="  Route me Safely  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:background="@drawable/button_green"/>
         <Button android:id="@+id/helpButton"
             android:text="Help me"
             android:layout_gravity="right"
