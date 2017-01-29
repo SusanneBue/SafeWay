@@ -22,7 +22,7 @@ public class MyDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.event_choices, container, false);
-        getDialog().setTitle("Enter your type of point");
+        getDialog().setTitle("Set danger or safety point");
         return v;
     }
 

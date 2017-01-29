@@ -603,6 +603,7 @@ public class MainActivity extends AppCompatActivity {
                 new com.here.android.mpa.common.Image();
 
         img.setImageResource(resource);
+        System.out.println("Resource: " + title + " " + resource );
 
         GeoCoordinate location = map.pixelToGeo(pointA);
         EventPOJO event = new EventPOJO(location.getLatitude(), location.getLongitude());
@@ -613,8 +614,8 @@ public class MainActivity extends AppCompatActivity {
 
          events.addEvent(event);
         Gson gson = new GsonBuilder().create();
-        String events_string = gson.toJson(events);
-        System.out.println(events_string);
+        String event_string = gson.toJson(event);
+        System.out.println(event_string);
 
         MapMarker marker = new MapMarker();
         marker.setIcon(img);
@@ -644,7 +645,7 @@ public class MainActivity extends AppCompatActivity {
             MapMarker marker = new MapMarker();
             com.here.android.mpa.common.Image img =
                     new com.here.android.mpa.common.Image();
-            img.setImageResource(event.getIconID());
+            img.setImageResource(event.getIconID()+1);
             marker.setIcon(img);
             marker.setDraggable (true);
             marker.setZIndex(1001);
