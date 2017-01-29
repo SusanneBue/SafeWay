@@ -1,14 +1,12 @@
 package com.bue.susanne.safeway;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.GeoBoundingBox;
 import com.here.android.mpa.mapping.Map;
-import com.here.android.mpa.mapping.MapContainer;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.MapRoute;
 import com.here.android.mpa.routing.Route;
@@ -40,7 +38,7 @@ public class SafeRouting {
 
     private Map map = null;
 
-    private HashMap<MapRoute, SafeRouteInfos> safeRouteInfos = new HashMap<MapRoute, SafeRouteInfos>();
+    private HashMap<Route, SafeRouteInfos> safeRouteInfos = new HashMap();
 
     public SafeRouting(Map map){
         this.map =  map;
@@ -116,7 +114,7 @@ public class SafeRouting {
                     System.out.println(dangerLevel);
                     SafeRouteInfos infos = new SafeRouteInfos(dangerLevel);
                     matchEvents(mapRoute,infos);
-                    safeRouteInfos.put(mapRoute, infos);
+                    safeRouteInfos.put(mapRoute.getRoute(), infos);
                     mapRoute.setColor(infos.getColor());
 
                 }
