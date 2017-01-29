@@ -8,7 +8,7 @@ public class EventPOJO {
 
     private Double longitude;
     private Double latitude;
-    private String icon_path;
+    private int iconID;
 
 
 
@@ -33,12 +33,12 @@ public class EventPOJO {
         this.longitude = longitude;
     }
 
-    public void setIconPath(String icon_path) {
-        this.icon_path = icon_path;
+    public void setIconID(int iconID) {
+        this.iconID = iconID;
     }
 
-    public String getIconPath() {
-        return icon_path;
+    public int getIconID() {
+        return iconID;
     }
 
     public Double getLatitude() {
