@@ -52,4 +52,8 @@ public class SafeRouteInfos {
         }
     }
 
+    public String toString(){
+        return "Route Safety: " + this.dangerLevel;
+    }
+
 }
