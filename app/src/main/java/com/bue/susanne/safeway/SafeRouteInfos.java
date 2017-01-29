@@ -12,6 +12,8 @@ public class SafeRouteInfos {
 
     private int numberOfSafetyEvents = 0;
 
+    public int minutes = 0;
+
     public int getNumberOfDangerEvents() {
         return numberOfDangerEvents;
     }
@@ -53,7 +55,8 @@ public class SafeRouteInfos {
     }
 
     public String toString(){
-        return "Route Safety: " + getSafetyLevel() + "\n" + "Safety points: " + this.numberOfSafetyEvents +"\n" + "Danger points: " + this.numberOfDangerEvents;
+        return "Route safety: " + getSafetyLevel() + "\n" + "Safety points: " + this.numberOfSafetyEvents +"\n"
+                + "Danger points: " + this.numberOfDangerEvents + "\n" + "Minutes: " + this.minutes;
     }
 
 }
