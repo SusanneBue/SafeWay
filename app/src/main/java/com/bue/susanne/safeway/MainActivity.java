@@ -1,49 +1,29 @@
 package com.bue.susanne.safeway;
 
 import android.app.Activity;
+import android.app.usage.UsageEvents;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.ContentObserver;
-import android.content.SharedPreferences;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.google.gson.stream.JsonReader;
 import com.here.android.mpa.search.AutoSuggest;
 import  com.here.android.mpa.search.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.support.v7.widget.PopupMenu;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -65,22 +45,21 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.Manifest;
-import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.bue.susanne.safeway.MESSAGE";
@@ -108,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
     PointF pointA;
 
+    private EventListPOJO events;
+
     /**
      * permissions request code
      */
@@ -116,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Permissions that need to be explicitly requested from end user.
      */
-    private static final String[] REQUIRED_SDK_PERMISSIONS = new String[] {
-            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET };
+    private static final String[] REQUIRED_SDK_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET};
 
 
     @Override
@@ -126,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         checkPermissions();
         initializeRouting();
+        events = new EventListPOJO();
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
 
-    private void initializeRouting(){
+    private void initializeRouting() {
         final EditText startLocation = (EditText) findViewById(R.id.editStart);
         final EditText endLocation = (EditText) findViewById(R.id.editEnd);
 
@@ -143,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println(v);
                 String start = startLocation.getText().toString();
-                if (start.equals("Your Location")){
-                    if (currentLocationString != null){
+                if (start.equals("Your Location")) {
+                    if (currentLocationString != null) {
                         start = currentLocationString;
                         useCurrentLocation = true;
-                    }else{
+                    } else {
                         start = "Andreasstr. 10, Berlin";
                         useCurrentLocation = false;
                     }
@@ -160,28 +142,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeGPS(){
+    private void initializeGPS() {
 
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
-        locationListener = new LocationListener(){
+        locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(android.location.Location loc) {
                 currentLocation = loc;
-                if (loc != null){
+                if (loc != null) {
                     updateLocation(loc);
                 }
             }
 
             @Override
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
 
             @Override
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
             @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
         };
 
         checkCallingPermission(ACCESS_FINE_LOCATION);
@@ -200,8 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    private void geoCodeLocation(String start, String end){
+    private void geoCodeLocation(String start, String end) {
 
 
         final GeoCoordinate searchLocation = new GeoCoordinate(52.511390, 13.400027);
@@ -221,22 +205,22 @@ public class MainActivity extends AppCompatActivity {
                 if (error != ErrorCode.NONE) {
                     System.err.println(error);
                 } else {
-                    if (data.size() > 0){
+                    if (data.size() > 0) {
                         System.out.println(data.get(0).getCoordinate().getLatitude() + "," + data.get(0).getCoordinate().getLongitude());
                     }
                     System.out.println(endString);
-                    if (start == null){
-                        if (currentLocation != null && useCurrentLocation){
+                    if (start == null) {
+                        if (currentLocation != null && useCurrentLocation) {
                             start = new Location(new GeoCoordinate(currentLocation.getLatitude(), currentLocation.getLongitude()));
-                        }else{
+                        } else {
                             start = data.get(0);
                         }
                         System.out.println("Now geocode second location");
-                        GeocodeRequest request = new GeocodeRequest(endString).setSearchArea(searchLocation,5000);
+                        GeocodeRequest request = new GeocodeRequest(endString).setSearchArea(searchLocation, 5000);
                         request.execute(this);
-                    }else{
+                    } else {
                         end = data.get(0);
-                      routing.calculateRoute(start.getCoordinate(), end.getCoordinate());
+                        routing.calculateRoute(start.getCoordinate(), end.getCoordinate());
                     }
                 }
             }
@@ -246,10 +230,9 @@ public class MainActivity extends AppCompatActivity {
         request.execute(listener);
 
 
-
     }
 
-    private void updateLocation(android.location.Location loc){
+    private void updateLocation(android.location.Location loc) {
         /*------- To get city name from coordinates -------- */
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         List<Address> addresses;
@@ -260,15 +243,14 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(addresses.get(0).getLocality());
                 currentLocationString = addresses.get(0).toString();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-       // locationText.setText(loc.getLatitude() + "," + loc.getLongitude() + " - " + cityName);
+        // locationText.setText(loc.getLatitude() + "," + loc.getLongitude() + " - " + cityName);
     }
 
-    private void initializeAutoComplete(){
+    private void initializeAutoComplete() {
 
         class AutoSuggester implements TextWatcher {
 
@@ -296,39 +278,40 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 final String incompleteLocation = view.getText().toString();
-                    System.out.println(incompleteLocation);
-                    TextAutoSuggestionRequest request = null;
-                if (incompleteLocation.isEmpty()){
+                System.out.println(incompleteLocation);
+                TextAutoSuggestionRequest request = null;
+                if (incompleteLocation.isEmpty()) {
                     view.dismissDropDown();
                     return;
                 }
-                    request = new TextAutoSuggestionRequest(incompleteLocation).setSearchCenter(map.getCenter());
-                    class AutoSuggestionQueryListener implements ResultListener<List<AutoSuggest>> {
+                request = new TextAutoSuggestionRequest(incompleteLocation).setSearchCenter(map.getCenter());
+                class AutoSuggestionQueryListener implements ResultListener<List<AutoSuggest>> {
 
-                        @Override
-                        public void onCompleted(List<AutoSuggest> data, ErrorCode error) {
-                            if (error != ErrorCode.NONE) {
-                                System.err.println(error);
-                            } else {
-                                final String[] suggestions = new String[data.size()+1];
-                                suggestions[0] = incompleteLocation;
+                    @Override
+                    public void onCompleted(List<AutoSuggest> data, ErrorCode error) {
+                        if (error != ErrorCode.NONE) {
+                            System.err.println(error);
+                        } else {
+                            final String[] suggestions = new String[data.size() + 1];
+                            suggestions[0] = incompleteLocation;
 
-                                for (int i = 0; i < data.size(); i++) {
-                                    suggestions[i+1] = data.get(i).getTitle();
-                                }
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
-                                        android.R.layout.simple_dropdown_item_1line, suggestions);
-                                view.setAdapter(adapter);
-                                view.showDropDown();
+                            for (int i = 0; i < data.size(); i++) {
+                                suggestions[i + 1] = data.get(i).getTitle();
                             }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+                                    android.R.layout.simple_dropdown_item_1line, suggestions);
+                            view.setAdapter(adapter);
+                            view.showDropDown();
                         }
                     }
-                    ;
-
-                    request.execute(new AutoSuggestionQueryListener());
                 }
                 ;
+
+                request.execute(new AutoSuggestionQueryListener());
             }
+
+            ;
+        }
 
         final AutoCompleteTextView startLocation = (AutoCompleteTextView) findViewById(R.id.editStart);
         final AutoCompleteTextView endLocation = (AutoCompleteTextView) findViewById(R.id.editEnd);
@@ -357,13 +340,12 @@ public class MainActivity extends AppCompatActivity {
         //addListenerOnButton();
 
         // Search for the map fragment to finish setup by calling init().
-        mapFragment = (MapFragment)getFragmentManager().findFragmentById(
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(
                 R.id.mapfragment);
         mapFragment.init(new OnEngineInitListener() {
             @Override
             public void onEngineInitializationCompleted(
-                    OnEngineInitListener.Error error)
-            {
+                    OnEngineInitListener.Error error) {
 
 
                 if (error == OnEngineInitListener.Error.NONE) {
@@ -373,18 +355,15 @@ public class MainActivity extends AppCompatActivity {
                     initializeAutoComplete();
 
                     // Set the map center to the Vancouver region (no animation)
-                    if (currentLocation != null){
+                    if (currentLocation != null) {
                         map.setCenter(new GeoCoordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), 0.0),
                                 Map.Animation.NONE);
-                    }else{
+                    } else {
                         map.setCenter(new GeoCoordinate(52.511390, 13.400027, 0.0), Map.Animation.NONE);
                     }
                     // Set the zoom level to pretty close (max = 18)
                     map.setZoomLevel(15);
-
-                    //MapMarker marker = new MapMarker();
-                    //marker.setCoordinate(new GeoCoordinate(currentLocation.getLatitude(), currentLocation.getLongitude()));
-                    //map.addMapObject(marker);
+                    loadMarkers();
 
                     mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener() {
 
@@ -415,16 +394,6 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onTapEvent(PointF pointF) {
-
-                            dialog = new MyDialog();
-                            dialog.show(getSupportFragmentManager(),"Dialog");
-                            pointA = pointF;
-                            //MapMarker marker = new MapMarker();
-                            //marker.setCoordinate(map.pixelToGeo(pointF));
-                            //map.addMapObject(marker);
-
-
-
                             return true;
                         }
 
@@ -460,7 +429,10 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onLongPressEvent(PointF pointF) {
-                            return false;
+                            dialog = new MyDialog();
+                            dialog.show(getSupportFragmentManager(), "Dialog");
+                            pointA = pointF;
+                            return true;
                         }
 
                         @Override
@@ -508,8 +480,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void mapEvent(View view) throws IOException {
         dialog.dismiss();
-        com.here.android.mpa.common.Image img =
-                new com.here.android.mpa.common.Image();
         int resource = 0;
         switch (view.getId()) {
             case R.id.imageButtonSafety:
@@ -528,11 +498,9 @@ public class MainActivity extends AppCompatActivity {
                 resource = R.drawable.restaurant;
                 break;
         }
-        img.setImageResource(resource);
-        sharedPrefsExample(img);
-
+        storeMarkers(resource);
         Toast.makeText(MainActivity.this,
-                        "Thanks for your contribution, event added to the database!", Toast.LENGTH_SHORT).show();
+                "Thanks for your contribution, event added to the database!", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -558,42 +526,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void sharedPrefsExample(Image img) {
+    public void storeMarkers(int resource) throws IOException {
 
+        com.here.android.mpa.common.Image img =
+                new com.here.android.mpa.common.Image();
 
-        String string_json = "{\n" +
-                "  \"marker\": {\n" +
-                "    \"icon\": \"/image.png\",\n" +
-                "    \"location\": {\n" +
-                "      \"lat\": 52.522101,\n" +
-                "      \"long\": 13.413215\n" +
-                "    }\n" +
-                "  }\n" +
-                "}";
-        JSONObject markers;
+        img.setImageResource(resource);
 
-        Gson gson = new GsonBuilder().create();
-
-        //EventPOJO event = new EventPOJO(52.522101,13.413215);
         GeoCoordinate location = map.pixelToGeo(pointA);
-        EventPOJO event = new EventPOJO(location.getLatitude(),location.getLongitude());
-        String json = gson.toJson(event);// obj is your object
+        EventPOJO event = new EventPOJO(location.getLatitude(), location.getLongitude());
+        event.setIconID(resource);
 
-        try {
-             markers = new JSONObject(string_json);
-            //Double lat =  markers.getJSONObject("marker").getJSONObject("location").getDouble("lat");
-            //Double lon = markers.getJSONObject("marker").getJSONObject("location").getDouble("long");
-            MapMarker marker = new MapMarker();
-            marker.setIcon(img);
+        MapMarker marker = new MapMarker();
+        marker.setIcon(img);
 
-            marker.setCoordinate(new GeoCoordinate(event.getLatitude(),event.getLongitude()));
-            map.addMapObject(marker);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
+        marker.setCoordinate(new GeoCoordinate(event.getLatitude(), event.getLongitude()));
+        map.addMapObject(marker);
     }
 
+    public void loadMarkers() {
+        Gson gson = new GsonBuilder().create();
+
+        InputStream is = getResources().openRawResource(R.raw.events);
+        int size = 0;
+        try {
+            size = is.available();
+
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        String json_string = new String(buffer, "UTF-8");
+        EventListPOJO eventListPOJO = gson.fromJson(json_string, EventListPOJO.class);
+
+        for (EventPOJO event : eventListPOJO.getEvents()){
+            MapMarker marker = new MapMarker();
+            com.here.android.mpa.common.Image img =
+                    new com.here.android.mpa.common.Image();
+            img.setImageResource(event.getIconID());
+            marker.setIcon(img);
+            marker.setCoordinate(new GeoCoordinate(event.getLatitude(), event.getLongitude()));
+            map.addMapObject(marker);
+
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
