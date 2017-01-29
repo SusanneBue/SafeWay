@@ -43,10 +43,10 @@ public class SafePlaceFinder {
 
         ArrayList<GeoCoordinate> safePlaces = new ArrayList<GeoCoordinate>();
             for (EventPOJO event : events.getEvents()){
-                //TODO: only safe events
-
-                GeoCoordinate eventCoordinate = new GeoCoordinate(event.getLatitude(), event.getLongitude(), 0.0);
-                safePlaces.add(eventCoordinate);
+                if (event.getSafetyValue() > 0){
+                    GeoCoordinate eventCoordinate = new GeoCoordinate(event.getLatitude(), event.getLongitude(), 0.0);
+                    safePlaces.add(eventCoordinate);
+                }
             }
             calculateRoutesToSafePlaces(currentLocation, safePlaces, 0, null);
     }
