@@ -117,6 +117,16 @@ public class SafePlaceFinder {
                         while (!map.getBoundingBox().contains(routeBox)) {
                             map.setZoomLevel(map.getZoomLevel() - 1);
                         }
+                    }else{
+                        //zoom into map
+                        while(map.getBoundingBox().contains(routeBox.getBottomRight()) && map.getBoundingBox().contains(routeBox.getTopLeft()) && (map.getZoomLevel()+1) < map.getMaxZoomLevel()){
+                            map.setZoomLevel(map.getZoomLevel() + 1);
+                            System.out.println(map.getZoomLevel());
+                        }
+                        if (!(map.getBoundingBox().contains(routeBox.getBottomRight())) || !map.getBoundingBox().contains(routeBox.getTopLeft())){
+                            map.setZoomLevel(map.getZoomLevel() - 1);
+                        }
+
                     }
 
                     map.addMapObject(mapRoute);

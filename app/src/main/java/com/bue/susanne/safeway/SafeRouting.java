@@ -67,7 +67,7 @@ public class SafeRouting {
         RouteOptions routeOptions = new RouteOptions();
         routeOptions.setTransportMode(RouteOptions.TransportMode.PEDESTRIAN);
         routeOptions.setRouteType(RouteOptions.Type.FASTEST);
-        routeOptions.setRouteCount(5);
+        routeOptions.setRouteCount(10);
         //routeOptions.setParksAllowed(false);
         routePlan.setRouteOptions(routeOptions);
 
@@ -99,31 +99,60 @@ public class SafeRouting {
             if (error == RouteManager.Error.NONE) {
                 // Render the route on the map
                 System.out.println("Found " + routeResult.size() + " routes");
-                for (RouteResult routeResultItem : routeResult){
-                    System.out.println("Route: " + routeResultItem.getRoute());
-                    MapRoute mapRoute = new MapRoute(routeResultItem.getRoute());
-                    GeoBoundingBox routeBox = mapRoute.getRoute().getBoundingBox();
-                    map.setCenter(routeBox.getCenter(), Map.Animation.NONE);
-                    while(!map.getBoundingBox().contains(routeBox)){
-                        map.setZoomLevel(map.getZoomLevel() -1);
+
+                //always render first route
+                MapRoute mapRoute = new MapRoute(routeResult.get(0).getRoute());
+                GeoBoundingBox routeBox = mapRoute.getRoute().getBoundingBox();
+                map.setCenter(routeBox.getCenter(), Map.Animation.NONE);
+                if (!map.getBoundingBox().contains(routeBox)) {
+                    while (!map.getBoundingBox().contains(routeBox)) {
+                        map.setZoomLevel(map.getZoomLevel() - 1);
                     }
+                }else {
+                    //zoom into map
+                    while (map.getBoundingBox().contains(routeBox.getBottomRight()) && map.getBoundingBox().contains(routeBox.getTopLeft()) && (map.getZoomLevel() + 1) < map.getMaxZoomLevel()) {
+                        map.setZoomLevel(map.getZoomLevel() + 1);
+                        System.out.println(map.getZoomLevel());
+                    }
+                    if (!(map.getBoundingBox().contains(routeBox.getBottomRight())) || !map.getBoundingBox().contains(routeBox.getTopLeft())) {
+                        map.setZoomLevel(map.getZoomLevel() - 1);
+                    }
+                }
 
-                    map.addMapObject(mapRoute);
+                map.addMapObject(mapRoute);
 
-                    int dangerLevel = new Random().nextInt(11);
-                    System.out.println(dangerLevel);
-                    SafeRouteInfos infos = new SafeRouteInfos(dangerLevel);
+                SafeRouteInfos infos1 = new SafeRouteInfos();
+                matchEvents(mapRoute,infos1);
+                safeRouteInfos.put(mapRoute.getRoute(), infos1);
+                mapRoute.setColor(infos1.getColor());
+
+                int safest = infos1.getSafetyLevel();
+                MapRoute safestRoute = mapRoute;
+
+                for (int i = 1; i <routeResult.size(); i++){
+                    mapRoute = new MapRoute(routeResult.get(i).getRoute());
+
+                    SafeRouteInfos infos = new SafeRouteInfos();
                     matchEvents(mapRoute,infos);
                     safeRouteInfos.put(mapRoute.getRoute(), infos);
                     mapRoute.setColor(infos.getColor());
-
+                    if (safest <= infos.getSafetyLevel()){
+                        safest = infos.getSafetyLevel();
+                        safestRoute = mapRoute;
+                    }
                 }
+
+                map.addMapObject(safestRoute);
+
             }
             else {
                 // Display a message indicating route calculation failure
             }
         }
     }
+
+
+
 
     public void matchEvents(MapRoute route, SafeRouteInfos infos) {
         Gson gson = new GsonBuilder().create();
