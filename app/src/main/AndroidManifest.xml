@@ -21,11 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayMessageActivity"></activity>
         <meta-data android:name="com.here.android.maps.appid"
-            android:value="7c2ceu7UixSfDj28c8fD"/>
+            android:value="XXX"/>
         <meta-data android:name="com.here.android.maps.apptoken"
-            android:value="t4ex5LQ1dZED29SPd_WaNA"/>
+            android:value="XXX"/>
         <service
             android:name="com.here.android.mpa.service.MapService"
             android:label="HereMapService"
